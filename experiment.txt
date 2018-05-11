@@ -1,0 +1,105 @@
+public ActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Index(int[] Data)
+        {
+            if (Data == null || Data.Length != 2)
+            {
+                return RedirectToAction("Index");
+            }
+            string redirectTo = (Data[1] == 0) ? "EditBlog" : "DeleteBlog";
+            return RedirectToAction(redirectTo, "Home", new { Index = Data[0] });
+        }
+
+        public ActionResult CreateBlog()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreateBlog(Blog blog)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            blog.CreatedDate = DateTime.Now;
+            if (Session["Blogs"] == null)
+            {
+                Session.Add("Blogs", new List<Blog>());
+            }
+            ((IList<Blog>)Session["Blogs"]).Add(blog);
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult EditBlog(int Index)
+        {
+            RedirectToRouteResult exceptionRoute = RedirectToAction("Index");
+            if (Session["Blogs"] == null || Index < 0)
+            {
+                return exceptionRoute;
+            }
+            IList<Blog> blogList = (IList<Blog>)Session["Blogs"];
+            if (blogList.Count <= Index)
+            {
+                return exceptionRoute;
+            }
+            Blog blog = blogList.ElementAt(Index);
+            BlogDict blogDict = new BlogDict(blog, Index);
+            return View(blogDict);
+        }
+
+        [HttpPost]
+        public ActionResult EditBlog(BlogDict blogDict)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            RedirectToRouteResult homeRoute = RedirectToAction("Index");
+            if (Session["Blogs"] == null || blogDict.Index < 0)
+            {
+                return homeRoute;
+            }
+            IList<Blog> blogList = (IList<Blog>)Session["Blogs"];
+            if (blogDict.Index >= blogList.Count)
+            {
+                return homeRoute;
+            }
+            Blog oldBlog = blogList.ElementAt(blogDict.Index);
+            Blog newBlog = blogDict.Blog;
+            oldBlog.Title = newBlog.Title;
+            oldBlog.Author = newBlog.Author;
+            oldBlog.Content = newBlog.Content;
+            return homeRoute;
+        }
+
+        public ActionResult DeleteBlog(int Index)
+        {
+            RedirectToRouteResult homeRoute = RedirectToAction("Index");
+            if (Session["Blogs"] == null || Index < 0)
+            {
+                return homeRoute;
+            }
+            IList<Blog> blogList = (IList<Blog>)Session["Blogs"];
+            if (Index >= blogList.Count)
+            {
+                return homeRoute;
+            }
+            blogList.RemoveAt(Index);
+            return homeRoute;
+        }
+
+
+
+
+List<BlogDTO> blogDTOList = blogService.GetBlogList();
+                blogList = new List<Blog>();
+                foreach(BlogDTO blogDTO in blogDTOList)
+                {
+                    Blog blog = MapDataModel(blogDTO);
+                    blogList.Add(blog);
+                }

@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "Home";
+}
+
+@section Style {
+    <link href="@Url.Content("~/Content/home.css")" rel="stylesheet" type="text/css" />
+}
+
+@section Script {
+    <script type="text/javascript" src="~/Scripts/home.js"></script>
+}
+
+@using MVC.Models
+@model BlogList
+
+<div class="container" id="blog-content">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            @Html.ActionLink("Create", "CreateBlog", null, new { id = "create-btn" })
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <table class="table" id="blog-table">
+                <tr>
+                    <th>Title</th>
+                    <th>Content</th>
+                    <th>Created Date</th>
+                    <th>Author</th>
+                    <th>Action</th>
+                </tr>
+                @if (Model != null)
+                 {
+                    int blogListCount = Model.Count();
+                    for (int i = 0; i < blogListCount; i++)
+                    {
+                        Blog blog = Model.GetBlog(i);
+                        <tr>
+                            <td>@blog.Title</td>
+                            <td>@blog.Content</td>
+                            <td>@blog.CreatedDate.ToShortDateString()</td>
+                            <td>@blog.Author</td>
+                            <td>
+                                @using (Html.BeginForm())
+                                 {
+                                    @Html.Hidden("Data", i)
+                                    @Html.Hidden("Data", 0)
+                                    <input class="action-btn edit-btn" type="submit" value="Edit">
+                                    <input class="action-btn delete-btn" type="button" onclick="deleteBlog(this);" value="Delete">
+                                 }
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+    </div>
+</div>
+

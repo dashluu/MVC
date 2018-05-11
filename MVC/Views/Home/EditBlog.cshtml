@@ -1,0 +1,39 @@
+﻿@model MVC.Models.BlogDict
+
+@section Style {
+    <link href="@Url.Content("~/Content/editblog.css")" rel="stylesheet" type="text/css" />
+}
+
+<div class="container" id="edit-section">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            @Html.ValidationSummary(true)
+            @using (Html.BeginForm(new { id = "blog-form" }))
+            {
+                object titleAttr = new
+                {
+                    @class = "input",
+                    placeholder = "Title..."
+                };
+                object authorAttr = new
+                {
+                    @class = "input",
+                    placeholder = "Author..."
+                };
+                object contentAttr = new
+                {
+                    @class = "input",
+                    placeholder = "Write content here..."
+                };
+                <p>@Html.ValidationMessageFor(x => x.Blog.Title)</p>
+                <div class="input-container">@Html.TextBoxFor(x => x.Blog.Title, titleAttr)</div>
+                <p>@Html.ValidationMessageFor(x => x.Blog.Author)</p>
+                <div class="input-container">@Html.TextBoxFor(x => x.Blog.Author, authorAttr)</div>
+                <p>@Html.ValidationMessageFor(x => x.Blog.Content)</p>
+                <div class="input-container">@Html.TextAreaFor(x => x.Blog.Content, contentAttr)</div>
+                @Html.HiddenFor(x => x.Index)
+                <input type="submit" id="submit-blog" />
+            }
+        </div>
+    </div>
+</div>

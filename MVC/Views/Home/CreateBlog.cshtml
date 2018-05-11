@@ -1,0 +1,37 @@
+﻿@model MVC.Models.Blog
+
+@section Style {
+    <link href="@Url.Content("~/Content/createblog.css")" rel="stylesheet" type="text/css" />
+}
+
+<div class="container" id="create-section">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            @Html.ValidationSummary(true)
+            @using (Html.BeginForm(new { id = "blog-form"}))
+            {
+                object titleAttr = new
+                {
+                    @class = "input",
+                    placeholder = "Title..."
+                };
+                object authorAttr = new
+                {
+                    @class = "input",
+                    placeholder = "Author..."
+                };
+                object contentAttr = new {
+                    @class = "input",
+                    placeholder = "Write content here..."
+                };
+                <p>@Html.ValidationMessageFor(x => x.Title)</p>
+                <div class="input-container">@Html.TextBoxFor(x => x.Title, titleAttr)</div>
+                <p>@Html.ValidationMessageFor(x => x.Author)</p>
+                <div class="input-container">@Html.TextBoxFor(x => x.Author, authorAttr)</div>
+                <p>@Html.ValidationMessageFor(x => x.Content)</p>
+                <div class="input-container">@Html.TextAreaFor(x => x.Content, contentAttr)</div>
+                <input type="submit" id="submit-blog" />
+            }
+        </div>
+    </div>
+</div>

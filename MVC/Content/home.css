@@ -1,0 +1,38 @@
+﻿body {
+}
+
+#blog-content {
+    margin-top: 50px;
+}
+
+#create-btn, .action-btn {
+    color: white;
+    border-radius: 3px;
+}
+
+#create-btn, .edit-btn {
+    background-color: black;
+    border: 1px solid black;
+}
+
+.delete-btn {
+    background-color: red;
+    border: 1px solid red;
+}
+
+#create-btn {
+    padding: 10px 10px;
+}
+
+#create-btn:hover {
+    text-decoration: none;
+}
+
+.action-btn {
+    padding: 1px 8px 1px 8px;
+    outline: none;
+}
+
+#blog-table {
+    margin-top: 20px;
+}
