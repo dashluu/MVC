@@ -11,9 +11,9 @@ namespace MVC.Controllers
     {
         private IBlogService blogService;
 
-        public HomeController()
+        public HomeController(IBlogService blogService)
         {
-            blogService = new BlogService();
+            this.blogService = blogService;
         }
 
         private Blog MapDataModel(BlogDTO blogDTO)

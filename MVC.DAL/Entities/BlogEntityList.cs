@@ -24,11 +24,6 @@ namespace MVC.DAL.Entities
             return list.Count;
         }
 
-        public List<BlogEntity> GetBlogList()
-        {
-            return list;
-        }
-
         public BlogEntity GetBlog(int index)
         {
             return list[index];

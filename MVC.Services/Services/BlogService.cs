@@ -13,9 +13,9 @@ namespace MVC.Services.Services
     {
         private IBlogRepository blogRepository;
 
-        public BlogService()
+        public BlogService(IBlogRepository blogRepository)
         {
-            blogRepository = new BlogRepository();
+            this.blogRepository = blogRepository;
         }
 
         public bool AddBlog(BlogDTO blogDTO)
