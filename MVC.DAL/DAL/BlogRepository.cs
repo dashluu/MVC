@@ -10,66 +10,114 @@ namespace MVC.DAL.DAL
 {
     public class BlogRepository : IBlogRepository
     {
-        private BlogEntityList blogEntityList;
-
-        private void CreateSampleData(int n)
-        {
-            for (int i = 1; i <= n; i++)
-            {
-                string title = "title" + i;
-                string content = "content" + i;
-                DateTime createdDate = DateTime.Now;
-                string author = "author" + i;
-                BlogEntity blogEntity = new BlogEntity(title: title,
-                                                        content: content,
-                                                        createdDate: createdDate,
-                                                        author: author);
-                blogEntityList.AddBlog(blogEntity);
-            }
-        }
-
-        public BlogRepository()
-        {
-            blogEntityList = new BlogEntityList();
-            CreateSampleData(5);
-        }
-
         public bool AddBlog(BlogEntity blogEntity)
         {
-            blogEntityList.AddBlog(blogEntity);
-            return true;
+            try
+            {
+                using (var blogContext = new BlogContext())
+                {
+                    blogContext.Blogs.Add(blogEntity);
+                    blogContext.SaveChanges();
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public int BlogListCount()
         {
-            int listCount = blogEntityList.Count();
-            return listCount;
+            try
+            {
+                int listCount;
+                using (var blogContext = new BlogContext())
+                {
+                    listCount = blogContext.Blogs.Count();
+                }
+                return listCount;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
         }
 
-        public BlogEntity GetBlog(int index)
+        public BlogEntity GetBlog(int id)
         {
-            BlogEntity blogEntity = blogEntityList.GetBlog(index);
-            return blogEntity;
+            try
+            {
+                BlogEntity blogEntity;
+                using (var blogContext = new BlogContext())
+                {
+                    blogEntity = blogContext.Blogs.Where(x => x.BlogId == id).FirstOrDefault();
+                }
+                return blogEntity;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public BlogEntityList GetBlogList()
         {
-            return blogEntityList;
+            try
+            {
+                BlogEntityList blogEntityList = new BlogEntityList();
+                using (var blogContext = new BlogContext())
+                {
+                    var blogDBSet = blogContext.Blogs;
+                    foreach (BlogEntity blogEntity in blogDBSet)
+                    {
+                        blogEntityList.AddBlogEntity(blogEntity);
+                    }
+                }
+                return blogEntityList;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
-        public bool RemoveBlog(int index)
+        public bool RemoveBlog(int id)
         {
-            blogEntityList.RemoveBlog(index);
-            return true;
+            try
+            {
+                using (var blogContext = new BlogContext())
+                {
+                    BlogEntity blogEntity = blogContext.Blogs.Where(x => x.BlogId == id).FirstOrDefault();
+                    blogContext.Blogs.Remove(blogEntity);
+                    blogContext.SaveChanges();
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
-        public bool UpdateBlog(int index, BlogEntity blogEntity)
+        public bool UpdateBlog(BlogEntity blogEntity)
         {
-            BlogEntity oldBlog = blogEntityList.GetBlog(index);
-            oldBlog.Title = blogEntity.Title;
-            oldBlog.Content = blogEntity.Content;
-            oldBlog.Author = blogEntity.Author;
-            return true;
+            try
+            {
+                using (var blogContext = new BlogContext())
+                {
+                    BlogEntity oldBlog = blogContext.Blogs.Where(x => x.BlogId == blogEntity.BlogId).FirstOrDefault();
+                    oldBlog.Title = blogEntity.Title;
+                    oldBlog.Content = blogEntity.Content;
+                    oldBlog.Author = blogEntity.Author;
+                    blogContext.SaveChanges();
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

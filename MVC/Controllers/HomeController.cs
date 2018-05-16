@@ -18,39 +18,43 @@ namespace MVC.Controllers
 
         private Blog MapDataModel(BlogDTO blogDTO)
         {
-            Blog blog = new Blog(title: blogDTO.Title,
-                                        content: blogDTO.Content,
-                                        createdDate: blogDTO.CreatedDate,
-                                        author: blogDTO.Author);
+            if (blogDTO == null)
+            {
+                return null;
+            }
+            Blog blog = new Blog(blogId: blogDTO.BlogId,
+                                title: blogDTO.Title,
+                                content: blogDTO.Content,
+                                createdDate: blogDTO.CreatedDate,
+                                author: blogDTO.Author);
             return blog;
         }
 
         private BlogDTO MapDataDTO(Blog blog)
         {
-            BlogDTO blogDTO = new BlogDTO(title: blog.Title,
-                                        content: blog.Content,
-                                        createdDate: blog.CreatedDate,
-                                        author: blog.Author);
+            if (blog == null)
+            {
+                return null;
+            }
+            BlogDTO blogDTO = new BlogDTO(blogId: blog.BlogId,
+                                title: blog.Title,
+                                content: blog.Content,
+                                createdDate: blog.CreatedDate,
+                                author: blog.Author);
             return blogDTO;
         }
 
-        private BlogList GetBlogListHelper()
+        public ActionResult Index()
         {
             BlogDTOList blogDTOList = blogService.GetBlogList();
             BlogList blogList = new BlogList();
             int blogDTOCount = blogDTOList.Count();
             for (int i = 0; i < blogDTOCount; i++)
             {
-                BlogDTO blogDTO = blogDTOList.GetBlog(i);
+                BlogDTO blogDTO = blogDTOList.GetBlogDTO(i);
                 Blog blog = MapDataModel(blogDTO);
                 blogList.AddBlog(blog);
             }
-            return blogList;
-        }
-
-        public ActionResult Index()
-        {
-            BlogList blogList = GetBlogListHelper();
             return View(blogList);
         }
 
@@ -61,16 +65,16 @@ namespace MVC.Controllers
             {
                 return RedirectToAction("Index");
             }
-            int index = Data[0];
+            int id = Data[0];
             object values = new
             {
-                Index = index
+                Id = id
             };
             if (Data[1] == 0)
             {
                 return RedirectToAction("EditBlog", "Home", values);
             }
-            bool deleteSuccessful = blogService.RemoveBlog(index);
+            bool deleteSuccessful = blogService.RemoveBlog(id);
             if (!deleteSuccessful)
             {
                 ModelState.AddModelError("", "Removing blog failed...");
@@ -100,29 +104,26 @@ namespace MVC.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult EditBlog(int Index)
+        public ActionResult EditBlog(int Id = -1)
         {
-            BlogDTO blogDTO = blogService.GetBlog(Index);
+            BlogDTO blogDTO = blogService.GetBlog(Id);
             if (blogDTO == null)
             {
                 return RedirectToAction("Index");
             }
             Blog blog = MapDataModel(blogDTO);
-            BlogDict blogDict = new BlogDict(blog, Index);
-            return View(blogDict);
+            return View(blog);
         }
 
         [HttpPost]
-        public ActionResult EditBlog(BlogDict blogDict)
+        public ActionResult EditBlog(Blog blog)
         {
             if (!ModelState.IsValid)
             {
                 return View();
             }
-            int index = blogDict.Index;
-            Blog newBlog = blogDict.Blog;
-            BlogDTO blogDTO = MapDataDTO(newBlog);
-            bool updateSuccessful = blogService.UpdateBlog(index, blogDTO);
+            BlogDTO blogDTO = MapDataDTO(blog);
+            bool updateSuccessful = blogService.UpdateBlog(blogDTO);
             if (!updateSuccessful)
             {
                 ModelState.AddModelError("", "Updating blog failed...");

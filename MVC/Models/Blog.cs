@@ -8,6 +8,8 @@ namespace MVC.Models
 {
     public class Blog
     {
+        public int BlogId { get; set; }
+
         [Required(ErrorMessage = "Blog's title is required.")]
         public string Title { get; set; }
 
@@ -19,8 +21,9 @@ namespace MVC.Models
         [Required(ErrorMessage = "Blog's author is required.")]
         public string Author { get; set; }
 
-        public Blog(string title, string content, DateTime createdDate, string author)
+        public Blog(int blogId, string title, string content, DateTime createdDate, string author)
         {
+            BlogId = blogId;
             Title = title;
             Content = content;
             CreatedDate = createdDate;

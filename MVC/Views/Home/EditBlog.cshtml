@@ -1,4 +1,4 @@
-﻿@model MVC.Models.BlogDict
+﻿@model MVC.Models.Blog
 
 @section Style {
     <link href="@Url.Content("~/Content/editblog.css")" rel="stylesheet" type="text/css" />
@@ -25,13 +25,13 @@
                     @class = "input",
                     placeholder = "Write content here..."
                 };
-                <p>@Html.ValidationMessageFor(x => x.Blog.Title)</p>
-                <div class="input-container">@Html.TextBoxFor(x => x.Blog.Title, titleAttr)</div>
-                <p>@Html.ValidationMessageFor(x => x.Blog.Author)</p>
-                <div class="input-container">@Html.TextBoxFor(x => x.Blog.Author, authorAttr)</div>
-                <p>@Html.ValidationMessageFor(x => x.Blog.Content)</p>
-                <div class="input-container">@Html.TextAreaFor(x => x.Blog.Content, contentAttr)</div>
-                @Html.HiddenFor(x => x.Index)
+                @Html.HiddenFor(x => x.BlogId)
+                <p>@Html.ValidationMessageFor(x => x.Title)</p>
+                <div class="input-container">@Html.TextBoxFor(x => x.Title, titleAttr)</div>
+                <p>@Html.ValidationMessageFor(x => x.Author)</p>
+                <div class="input-container">@Html.TextBoxFor(x => x.Author, authorAttr)</div>
+                <p>@Html.ValidationMessageFor(x => x.Content)</p>
+                <div class="input-container">@Html.TextAreaFor(x => x.Content, contentAttr)</div>
                 <input type="submit" id="submit-blog" />
             }
         </div>

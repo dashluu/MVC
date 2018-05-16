@@ -8,6 +8,8 @@ namespace MVC.Services.DTO
 {
     public class BlogDTO
     {
+        public int BlogId { get; set; }
+
         public string Title { get; set; }
 
         public string Content { get; set; }
@@ -16,8 +18,9 @@ namespace MVC.Services.DTO
 
         public string Author { get; set; }
 
-        public BlogDTO(string title, string content, DateTime createdDate, string author)
+        public BlogDTO(int blogId, string title, string content, DateTime createdDate, string author)
         {
+            BlogId = blogId;
             Title = title;
             Content = content;
             CreatedDate = createdDate;

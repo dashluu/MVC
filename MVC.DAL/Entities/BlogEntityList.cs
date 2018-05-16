@@ -14,9 +14,9 @@ namespace MVC.DAL.Entities
             list = new List<BlogEntity>();
         }
 
-        public void AddBlog(BlogEntity blog)
+        public void AddBlogEntity(BlogEntity blogEntity)
         {
-            list.Add(blog);
+            list.Add(blogEntity);
         }
 
         public int Count()
@@ -24,19 +24,19 @@ namespace MVC.DAL.Entities
             return list.Count;
         }
 
-        public BlogEntity GetBlog(int index)
+        public BlogEntity GetBlogEntity(int index)
         {
             return list[index];
         }
 
-        public void RemoveBlog(int index)
+        public void RemoveBlogEntity(int index)
         {
             list.RemoveAt(index);
         }
 
-        public void UpdateBlog(int index, BlogEntity blog)
+        public void UpdateBlogEntity(int index, BlogEntity blogEntity)
         {
-            list[index] = blog;
+            list[index] = blogEntity;
         }
     }
 }

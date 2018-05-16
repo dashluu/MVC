@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,9 @@ namespace MVC.DAL.Entities
 {
     public class BlogEntity
     {
+        [Key]
+        public int BlogId { get; set; }
+
         public string Title { get; set; }
 
         public string Content { get; set; }
@@ -16,12 +20,17 @@ namespace MVC.DAL.Entities
 
         public string Author { get; set; }
 
-        public BlogEntity(string title, string content, DateTime createdDate, string author)
+        public BlogEntity(int blogId, string title, string content, DateTime createdDate, string author)
         {
+            BlogId = blogId;
             Title = title;
             Content = content;
             CreatedDate = createdDate;
             Author = author;
+        }
+
+        public BlogEntity()
+        {
         }
     }
 }

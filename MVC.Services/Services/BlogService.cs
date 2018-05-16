@@ -32,17 +32,16 @@ namespace MVC.Services.Services
 
         public int BlogListCount()
         {
-            int listCount = blogRepository.BlogListCount();
-            return listCount;
+            return blogRepository.BlogListCount();
         }
 
-        public BlogDTO GetBlog(int index)
+        public BlogDTO GetBlog(int id)
         {
-            if (index < 0 || index >= BlogListCount())
+            if (id < 0)
             {
                 return null;
             }
-            BlogEntity blogEntity = blogRepository.GetBlog(index);
+            BlogEntity blogEntity = blogRepository.GetBlog(id);
             BlogDTO blogDTO = MapDataDTO(blogEntity);
             return blogDTO;
         }
@@ -51,26 +50,31 @@ namespace MVC.Services.Services
         {
             BlogEntityList blogEntityList = blogRepository.GetBlogList();
             BlogDTOList blogDTOList = new BlogDTOList();
-            int blogEntityCount = blogEntityList.Count();
-            for (int i = 0; i < blogEntityCount; i++)
+            int blogListCount = blogEntityList.Count();
+            for (int i = 0; i < blogListCount; i++)
             {
-                BlogEntity blogEntity = blogEntityList.GetBlog(i);
+                BlogEntity blogEntity = blogEntityList.GetBlogEntity(i);
                 BlogDTO blogDTO = MapDataDTO(blogEntity);
-                blogDTOList.AddBlog(blogDTO);
+                blogDTOList.AddBlogDTO(blogDTO);
             }
             return blogDTOList;
         }
 
         public bool IsBlogListEmpty()
         {
-            int listCount = BlogListCount();
-            bool isEmpty = (listCount == 0);
+            int blogListCount = BlogListCount();
+            bool isEmpty = (blogListCount == 0);
             return isEmpty;
         }
 
         public BlogDTO MapDataDTO(BlogEntity blogEntity)
         {
-            BlogDTO blogDTO = new BlogDTO(title: blogEntity.Title,
+            if (blogEntity == null)
+            {
+                return null;
+            }
+            BlogDTO blogDTO = new BlogDTO(blogId: blogEntity.BlogId,
+                                        title: blogEntity.Title,
                                         content: blogEntity.Content,
                                         createdDate: blogEntity.CreatedDate,
                                         author: blogEntity.Author);
@@ -79,31 +83,36 @@ namespace MVC.Services.Services
 
         public BlogEntity MapDataEntity(BlogDTO blogDTO)
         {
-            BlogEntity blogEntity = new BlogEntity(title: blogDTO.Title,
+            if (blogDTO == null)
+            {
+                return null;
+            }
+            BlogEntity blogEntity = new BlogEntity(blogId: blogDTO.BlogId,
+                                    title: blogDTO.Title,
                                     content: blogDTO.Content,
                                     createdDate: blogDTO.CreatedDate,
                                     author: blogDTO.Author);
             return blogEntity;
         }
 
-        public bool RemoveBlog(int index)
+        public bool RemoveBlog(int id)
         {
-            if (index < 0 || index >= BlogListCount())
+            if (id < 0)
             {
                 return false;
             }
-            bool removeSuccessful = blogRepository.RemoveBlog(index);
+            bool removeSuccessful = blogRepository.RemoveBlog(id);
             return removeSuccessful;
         }
 
-        public bool UpdateBlog(int index, BlogDTO blogDTO)
+        public bool UpdateBlog(BlogDTO blogDTO)
         {
-            if (index < 0 || index >= BlogListCount() || blogDTO == null)
+            if (blogDTO == null || blogDTO.BlogId < 0)
             {
                 return false;
             }
             BlogEntity blogEntity = MapDataEntity(blogDTO);
-            bool updateSuccessful = blogRepository.UpdateBlog(index, blogEntity);
+            bool updateSuccessful = blogRepository.UpdateBlog(blogEntity);
             return updateSuccessful;
         }
     }

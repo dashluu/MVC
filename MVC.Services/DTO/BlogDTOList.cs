@@ -14,9 +14,9 @@ namespace MVC.Services.DTO
             list = new List<BlogDTO>();
         }
 
-        public void AddBlog(BlogDTO blog)
+        public void AddBlogDTO(BlogDTO blogDTO)
         {
-            list.Add(blog);
+            list.Add(blogDTO);
         }
 
         public int Count()
@@ -24,19 +24,19 @@ namespace MVC.Services.DTO
             return list.Count;
         }
 
-        public BlogDTO GetBlog(int index)
+        public BlogDTO GetBlogDTO(int index)
         {
             return list[index];
         }
 
-        public void RemoveBlog(int index)
+        public void RemoveBlogDTO(int index)
         {
             list.RemoveAt(index);
         }
 
-        public void UpdateBlog(int index, BlogDTO blog)
+        public void UpdateBlogDTO(int index, BlogDTO blogDTO)
         {
-            list[index] = blog;
+            list[index] = blogDTO;
         }
     }
 }

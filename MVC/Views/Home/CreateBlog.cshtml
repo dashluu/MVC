@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             @Html.ValidationSummary(true)
-            @using (Html.BeginForm(new { id = "blog-form"}))
+            @using (Html.BeginForm(new { id = "blog-form" }))
             {
                 object titleAttr = new
                 {
@@ -20,7 +20,8 @@
                     @class = "input",
                     placeholder = "Author..."
                 };
-                object contentAttr = new {
+                object contentAttr = new
+                {
                     @class = "input",
                     placeholder = "Write content here..."
                 };

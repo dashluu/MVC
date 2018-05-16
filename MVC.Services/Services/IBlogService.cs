@@ -11,9 +11,9 @@ namespace MVC.Services.Services
     public interface IBlogService
     {
         bool AddBlog(BlogDTO blogDTO);
-        bool UpdateBlog(int index, BlogDTO blogDTO);
-        bool RemoveBlog(int index);
-        BlogDTO GetBlog(int index);
+        bool UpdateBlog(BlogDTO blogDTO);
+        bool RemoveBlog(int id);
+        BlogDTO GetBlog(int id);
         BlogDTOList GetBlogList();
         bool IsBlogListEmpty();
         int BlogListCount();
