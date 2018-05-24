@@ -26,6 +26,8 @@
                     placeholder = "Write content here..."
                 };
                 @Html.HiddenFor(x => x.BlogId)
+                string dateTime = Model.CreatedDate.ToShortDateString();
+                @Html.Hidden("CreatedDate", dateTime);
                 <p>@Html.ValidationMessageFor(x => x.Title)</p>
                 <div class="input-container">@Html.TextBoxFor(x => x.Title, titleAttr)</div>
                 <p>@Html.ValidationMessageFor(x => x.Author)</p>

@@ -47,11 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAL\BaseRepository.cs" />
     <Compile Include="DAL\BlogRepository.cs" />
-    <Compile Include="DAL\IBlogRepository.cs" />
+    <Compile Include="DAL\IBaseRepository.cs" />
     <Compile Include="Entities\BlogContext.cs" />
     <Compile Include="Entities\BlogEntity.cs" />
-    <Compile Include="Entities\BlogEntityList.cs" />
     <Compile Include="Migrations\201805151411258_InitialCreate.cs" />
     <Compile Include="Migrations\201805151411258_InitialCreate.Designer.cs">
       <DependentUpon>201805151411258_InitialCreate.cs</DependentUpon>

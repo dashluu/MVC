@@ -22,11 +22,14 @@ namespace MVC.Controllers
             {
                 return null;
             }
-            Blog blog = new Blog(blogId: blogDTO.BlogId,
-                                title: blogDTO.Title,
-                                content: blogDTO.Content,
-                                createdDate: blogDTO.CreatedDate,
-                                author: blogDTO.Author);
+            Blog blog = new Blog()
+            {
+                BlogId = blogDTO.BlogId,
+                Title = blogDTO.Title,
+                Content = blogDTO.Content,
+                CreatedDate = blogDTO.CreatedDate,
+                Author = blogDTO.Author
+            };
             return blog;
         }
 
@@ -36,24 +39,26 @@ namespace MVC.Controllers
             {
                 return null;
             }
-            BlogDTO blogDTO = new BlogDTO(blogId: blog.BlogId,
-                                title: blog.Title,
-                                content: blog.Content,
-                                createdDate: blog.CreatedDate,
-                                author: blog.Author);
+
+            BlogDTO blogDTO = new BlogDTO()
+            {
+                BlogId = blog.BlogId,
+                Title = blog.Title,
+                Content = blog.Content,
+                Author = blog.Author,
+                CreatedDate = blog.CreatedDate
+            };
             return blogDTO;
         }
 
         public ActionResult Index()
         {
-            BlogDTOList blogDTOList = blogService.GetBlogList();
-            BlogList blogList = new BlogList();
-            int blogDTOCount = blogDTOList.Count();
-            for (int i = 0; i < blogDTOCount; i++)
+            List<BlogDTO> blogDTOList = blogService.GetBlogList();
+            List<Blog> blogList = new List<Blog>();
+            foreach (BlogDTO blogDTO in blogDTOList)
             {
-                BlogDTO blogDTO = blogDTOList.GetBlogDTO(i);
                 Blog blog = MapDataModel(blogDTO);
-                blogList.AddBlog(blog);
+                blogList.Add(blog);
             }
             return View(blogList);
         }

@@ -20,15 +20,6 @@ namespace MVC.DAL.Entities
 
         public string Author { get; set; }
 
-        public BlogEntity(int blogId, string title, string content, DateTime createdDate, string author)
-        {
-            BlogId = blogId;
-            Title = title;
-            Content = content;
-            CreatedDate = createdDate;
-            Author = author;
-        }
-
         public BlogEntity()
         {
         }

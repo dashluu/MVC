@@ -1,0 +1,51 @@
+(blogId: blogEntity.BlogId,
+                                        title: blogEntity.Title,
+                                        content: blogEntity.Content,
+                                        createdDate: blogEntity.CreatedDate,
+                                        author: blogEntity.Author);
+
+BlogEntity blogEntity = new BlogEntity(blogId: blogDTO.BlogId,
+                                    title: blogDTO.Title,
+                                    content: blogDTO.Content,
+                                    createdDate: blogDTO.CreatedDate,
+                                    author: blogDTO.Author);
+
+
+public BlogDTO(int blogId, string title, string content, DateTime createdDate, string author)
+        {
+            BlogId = blogId;
+            Title = title;
+            Content = content;
+            CreatedDate = createdDate;
+            Author = author;
+        }
+
+
+        public BlogEntity(int blogId, string title, string content, DateTime createdDate, string author)
+        {
+            BlogId = blogId;
+            Title = title;
+            Content = content;
+            CreatedDate = createdDate;
+            Author = author;
+        }
+
+
+
+
+        public BlogEntity(int blogId, string title, string content, DateTime createdDate, string author)
+        {
+            BlogId = blogId;
+            Title = title;
+            Content = content;
+            CreatedDate = createdDate;
+            Author = author;
+        }
+
+int blogListCount = blogEntityList.Count();
+            for (int i = 0; i < blogListCount; i++)
+            {
+                BlogEntity blogEntity = blogEntityList.GetBlogEntity(i);
+                BlogDTO blogDTO = MapDataDTO(blogEntity);
+                blogDTOList.AddBlogDTO(blogDTO);
+            }

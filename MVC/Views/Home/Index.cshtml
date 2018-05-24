@@ -11,7 +11,7 @@
 }
 
 @using MVC.Models
-@model BlogList
+@model List<Blog>
 
 <div class="container" id="blog-content">
     <div class="row">
@@ -30,10 +30,8 @@
                 </tr>
                 @if (Model != null)
                 {
-                    int blogListCount = Model.Count();
-                    for (int i = 0; i < blogListCount; i++)
+                    foreach (Blog blog in Model)
                     {
-                        Blog blog = Model.GetBlog(i);
                         <tr>
                             <td>@blog.Title</td>
                             <td>@blog.Content</td>

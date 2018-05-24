@@ -18,13 +18,8 @@ namespace MVC.Services.DTO
 
         public string Author { get; set; }
 
-        public BlogDTO(int blogId, string title, string content, DateTime createdDate, string author)
+        public BlogDTO()
         {
-            BlogId = blogId;
-            Title = title;
-            Content = content;
-            CreatedDate = createdDate;
-            Author = author;
         }
     }
 }

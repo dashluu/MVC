@@ -4,6 +4,7 @@ using Unity.Mvc4;
 using MVC.Controllers;
 using MVC.Services.Services;
 using MVC.DAL.DAL;
+using MVC.DAL.Entities;
 
 namespace MVC
 {
@@ -26,7 +27,7 @@ namespace MVC
             // it is NOT necessary to register your controllers
 
             // e.g. container.RegisterType<ITestService, TestService>(); 
-            container.RegisterType<IBlogRepository, BlogRepository>();
+            container.RegisterType<IBaseRepository<BlogEntity, int>, BlogRepository>();
             container.RegisterType<IBlogService, BlogService>();
             container.RegisterType<IController, HomeController>();
       RegisterTypes(container);

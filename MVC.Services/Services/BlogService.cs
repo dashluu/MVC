@@ -11,9 +11,9 @@ namespace MVC.Services.Services
 {
     public class BlogService : IBlogService
     {
-        private IBlogRepository blogRepository;
+        private IBaseRepository<BlogEntity, int> blogRepository;
 
-        public BlogService(IBlogRepository blogRepository)
+        public BlogService(IBaseRepository<BlogEntity, int> blogRepository)
         {
             this.blogRepository = blogRepository;
         }
@@ -26,13 +26,13 @@ namespace MVC.Services.Services
             }
             blogDTO.CreatedDate = DateTime.Now;
             BlogEntity blogEntity = MapDataEntity(blogDTO);
-            bool addSuccessful = blogRepository.AddBlog(blogEntity);
+            bool addSuccessful = blogRepository.Add(blogEntity);
             return addSuccessful;
         }
 
         public int BlogListCount()
         {
-            return blogRepository.BlogListCount();
+            return blogRepository.Count();
         }
 
         public BlogDTO GetBlog(int id)
@@ -41,21 +41,19 @@ namespace MVC.Services.Services
             {
                 return null;
             }
-            BlogEntity blogEntity = blogRepository.GetBlog(id);
+            BlogEntity blogEntity = blogRepository.Get(id);
             BlogDTO blogDTO = MapDataDTO(blogEntity);
             return blogDTO;
         }
 
-        public BlogDTOList GetBlogList()
+        public List<BlogDTO> GetBlogList()
         {
-            BlogEntityList blogEntityList = blogRepository.GetBlogList();
-            BlogDTOList blogDTOList = new BlogDTOList();
-            int blogListCount = blogEntityList.Count();
-            for (int i = 0; i < blogListCount; i++)
+            List<BlogEntity> blogEntityList = blogRepository.GetList();
+            List<BlogDTO> blogDTOList = new List<BlogDTO>();
+            foreach(BlogEntity blogEntity in blogEntityList)
             {
-                BlogEntity blogEntity = blogEntityList.GetBlogEntity(i);
                 BlogDTO blogDTO = MapDataDTO(blogEntity);
-                blogDTOList.AddBlogDTO(blogDTO);
+                blogDTOList.Add(blogDTO);
             }
             return blogDTOList;
         }
@@ -73,11 +71,14 @@ namespace MVC.Services.Services
             {
                 return null;
             }
-            BlogDTO blogDTO = new BlogDTO(blogId: blogEntity.BlogId,
-                                        title: blogEntity.Title,
-                                        content: blogEntity.Content,
-                                        createdDate: blogEntity.CreatedDate,
-                                        author: blogEntity.Author);
+            BlogDTO blogDTO = new BlogDTO()
+            {
+                BlogId = blogEntity.BlogId,
+                Title = blogEntity.Title,
+                Content = blogEntity.Content,
+                Author = blogEntity.Author,
+                CreatedDate = blogEntity.CreatedDate
+            };
             return blogDTO;
         }
 
@@ -87,11 +88,14 @@ namespace MVC.Services.Services
             {
                 return null;
             }
-            BlogEntity blogEntity = new BlogEntity(blogId: blogDTO.BlogId,
-                                    title: blogDTO.Title,
-                                    content: blogDTO.Content,
-                                    createdDate: blogDTO.CreatedDate,
-                                    author: blogDTO.Author);
+            BlogEntity blogEntity = new BlogEntity()
+            {
+                BlogId = blogDTO.BlogId,
+                Title = blogDTO.Title,
+                Content = blogDTO.Content,
+                Author = blogDTO.Author,
+                CreatedDate = blogDTO.CreatedDate
+            };
             return blogEntity;
         }
 
@@ -101,7 +105,12 @@ namespace MVC.Services.Services
             {
                 return false;
             }
-            bool removeSuccessful = blogRepository.RemoveBlog(id);
+            BlogEntity blogEntity = blogRepository.Get(id);
+            if (blogEntity == null)
+            {
+                return false;
+            }
+            bool removeSuccessful = blogRepository.Remove(blogEntity);
             return removeSuccessful;
         }
 
@@ -112,7 +121,7 @@ namespace MVC.Services.Services
                 return false;
             }
             BlogEntity blogEntity = MapDataEntity(blogDTO);
-            bool updateSuccessful = blogRepository.UpdateBlog(blogEntity);
+            bool updateSuccessful = blogRepository.Update(blogEntity);
             return updateSuccessful;
         }
     }

@@ -14,7 +14,7 @@ namespace MVC.Services.Services
         bool UpdateBlog(BlogDTO blogDTO);
         bool RemoveBlog(int id);
         BlogDTO GetBlog(int id);
-        BlogDTOList GetBlogList();
+        List<BlogDTO> GetBlogList();
         bool IsBlogListEmpty();
         int BlogListCount();
         BlogDTO MapDataDTO(BlogEntity blogEntity);

@@ -21,15 +21,6 @@ namespace MVC.Models
         [Required(ErrorMessage = "Blog's author is required.")]
         public string Author { get; set; }
 
-        public Blog(int blogId, string title, string content, DateTime createdDate, string author)
-        {
-            BlogId = blogId;
-            Title = title;
-            Content = content;
-            CreatedDate = createdDate;
-            Author = author;
-        }
-
         public Blog()
         {
 
